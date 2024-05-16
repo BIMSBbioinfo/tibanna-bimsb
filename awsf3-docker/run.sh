@@ -108,6 +108,22 @@ send_success(){
 # function that handles errors - this function calls send_error and send_log
 handle_error() {  ERRCODE=$1; export STATUS+=,$ERRCODE; if [ "$ERRCODE" -ne 0 ]; then send_error; send_log; exit $ERRCODE; fi; }  ## usage: handle_error <error_code>
 
+handle_snakemake_error() {
+    ERRCODE=$1;
+    export STATUS+=,$ERRCODE;
+    if [ "$ERRCODE" -ne 0 ]; then
+        send_error;
+        send_log;
+
+        # more comprehensive log for snakemake
+        cwd0=$(pwd)
+        cd $LOCAL_WFDIR
+        tar -zcvf debug.tar.gz .snakemake/log output/logs
+        aws s3 cp debug.tar.gz s3://$LOGBUCKET/$JOBID.debug.tar.gz;
+        exit $ERRCODE;
+    fi;
+}  ## usage: handle_snakemake_error <error_code>
+
 
 # make sure log bucket is defined
 if [ -z "$LOGBUCKET" ]; then
@@ -284,7 +300,7 @@ elif [[ $LANGUAGE == 'snakemake' ]]
 then
   exl echo "running $COMMAND in docker image $CONTAINER_IMAGE..."
   docker run --privileged -v $EBS_DIR:$EBS_DIR:rw -w $LOCAL_WFDIR $DOCKER_ENV_OPTION $CONTAINER_IMAGE sh -c "$COMMAND" >> $LOGFILE 2>> $LOGFILE;
-  handle_error $?
+  handle_snakemake_error $?
 elif [[ $LANGUAGE == 'shell' ]]
 then
   exl echo "running $COMMAND in docker image $CONTAINER_IMAGE..."
