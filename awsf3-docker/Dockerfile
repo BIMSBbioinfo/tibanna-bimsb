@@ -90,6 +90,8 @@ RUN pip install tibanna==$version
 # Move default docker daemon location to mounted EBS
 COPY daemon.json /etc/docker/daemon.json
 
+# See https://forums.docker.com/t/etc-init-d-docker-62-ulimit-error-setting-limit-invalid-argument-problem/139424
+RUN sed -i -e 's|ulimit -Hn|ulimit -n|g' /etc/init.d/docker
 
 # supporting UTF-8
 RUN locale-gen "en_US.UTF-8" && update-locale LC_ALL="en_US.UTF-8"
