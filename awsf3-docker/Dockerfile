@@ -65,7 +65,7 @@ COPY run.sh .
 COPY cron.sh .
 RUN chmod +x run.sh cron.sh
 ARG version
-RUN pip install tibanna==$version
+RUN pip install git+https://github.com/BIMSBbioinfo/tibanna-bimsb.git@$version
 
 # Move default docker daemon location to mounted EBS
 COPY daemon.json /etc/docker/daemon.json
