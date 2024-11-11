@@ -813,7 +813,9 @@ class Execution(object):
                     'ResourceType': 'instance',
                     'Tags': [
                         {"Key": "Name", "Value": "awsem-" + self.jobid},
-                        {"Key": "Type", "Value": "awsem"}
+                        {"Key": "Type", "Value": "awsem"},
+                        {"Key": "AkalinCostOwner", "Value": "pigx:tibanna:awsem-" + self.jobid},
+                        {"Key": "project", "Value": "pigx:tibanna"},
                     ]
                 }
             ]

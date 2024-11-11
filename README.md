@@ -6,6 +6,7 @@ We made changes to awsf3-docker:
 
 - Remove unused packages from Dockerfile
 - upload debug logs on Snakemake failures
+- tag resources with "AkalinCostOwner" and "project" because for our account the "Name" tag cannot be used in AWS CostExplorer 
 
 ## Build
 
