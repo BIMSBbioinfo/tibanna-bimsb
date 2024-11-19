@@ -12,7 +12,7 @@ We made changes to awsf3-docker:
 
 ```sh
 cd awsf3-docker
-docker build --build-arg version=4.0.0-bimsb .
+docker build --build-arg version=v5.4.3-bimsb .
 docker tag $IMAGE bimsbbioinfo/tibanna-bimsb:latest
 docker login
 docker push bimsbbioinfo/tibanna-bimsb:latest
