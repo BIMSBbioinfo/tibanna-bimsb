@@ -763,6 +763,7 @@ class Execution(object):
         return base64_message
 
     def delete_launch_template(self):
+        return True
         try:
             # Existing launch templates can't be overwritten. Therefore, delete
             # exsting ones first
